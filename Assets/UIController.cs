@@ -1,0 +1,61 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class UIController : MonoBehaviour {
+
+	// ゲームオーバテキスト
+	//GameObjectクラスのgameOvertext変数
+	//※クラス名は大文字で始める。変数名は小文字で始める
+	private GameObject gameOverText;
+
+	// 走行距離テキスト
+	private GameObject runLengthText;
+
+	// 走った距離
+	private float len = 0;
+
+	// 走る速度
+	private float speed = 0.03f;
+
+	// ゲームオーバの判定
+	private bool isGameOver = false;
+
+	// Use this for initialization
+	void Start () {
+		// シーンビューからオブジェクトの実体を検索する
+		this.gameOverText  = GameObject.Find ("GameOver");
+		this.runLengthText = GameObject.Find ("RunLength");
+	}
+
+	// Update is called once per frame
+	void Update () {
+		if (this.isGameOver == false){
+			// 走った距離を更新する
+			this.len += this.speed;
+
+			// 走った距離を表示する
+			//Text text = runLengthText.Getcomponent<Text>();
+			//text.text = "Distance; "+len,ToString("F2")+"m";
+			this.runLengthText.GetComponent<Text> ().text = "Distance:  "  + len.ToString ("F2") + "m";
+		}
+		// ゲームオーバになった場合
+		if (this.isGameOver == true){
+			// クリックされたらシーンをロードする
+			//"0"って何だろう
+			if (Input.GetMouseButtonDown (0)){
+				//GameSceneを読み込む（追加）
+				SceneManager.LoadScene ("GameScene");
+			}
+		}
+
+	}
+
+	public void GameOver()        {
+		// ゲームオーバになったときに、画面上にゲームオーバを表示する
+		//このGameObject関数は、オブジェクトgameOverTextの
+		this.gameOverText.GetComponent<Text>().text = "GameOver";
+		this.isGameOver = true;
+	}
+}
